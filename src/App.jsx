@@ -1,33 +1,85 @@
-import React from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
-import ProTip from './ProTip';
+import React from 'react'
 
-function Copyright() {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
+import { faTwitter } from '@fortawesome/free-brands-svg-icons'
+
+import {
+  Button,
+  Grid,
+  IconButton,
+  Typography,
+  useMediaQuery,
+} from '@material-ui/core'
+
+import {
+  makeStyles,
+  useTheme,
+} from '@material-ui/core/styles'
+
+const useStyles = makeStyles(theme => ({
+  quoteContainer: {
+    maxWidth: 900,
+    padding: '2em 3em',
+    borderRadius: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    boxShadow: '0px 10px 10px 10px rgba(0, 0, 0, 0.2)',
+    [theme.breakpoints.down('md')]: {
+      margin: '0 10px',
+    },
+  },
+}))
+
+
+function App() {
+  const classes = useStyles()
+  const theme = useTheme()
+  const matchesMD = useMediaQuery(theme.breakpoints.down('md'))
+
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
+    <Grid
+      container
+      direction='column'
+      justify='center'
+      alignItems='center'
+      style={{ minHeight: '100vh' }}
+    >
+      {/*----- Quote -----*/}
+      <Grid item className={classes.quoteContainer}>
+        <Grid
+          container
+          direction='column'
+          justify='center'
+          alignItems='center'
+        >
+          {/*-- Quote --*/}
+          <Grid item>
+            <FontAwesomeIcon icon={faQuoteLeft} style={{ fontSize: '4rem' }} />
+            <Typography variant='h1' style={{ fontSize: matchesMD ? '2.5rem' : '2.75rem', fontWeight: 700 }}>
+              What you are is what you have been. What you'll be is what you do now
+            </Typography>
+          </Grid>
+
+          {/*-- Author --*/}
+          <Grid item style={{ marginTop: 15 }}>
+            <Typography variant='h2' style={{ fontSize: '2rem', fontWeight: 400, fontStyle: 'italic' }}>
+              Buddha
+            </Typography>
+          </Grid>
+
+          {/*-- Buttons --*/}
+          <Grid item>
+            <IconButton>
+              <FontAwesomeIcon icon={faTwitter} aria-label='Tweet this' />
+            </IconButton>
+            <Button>
+              New Quote
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  )
 }
 
-export default function App() {
-  return (
-    <Container maxWidth="sm">
-      <Box my={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Create React App v4-beta example
-        </Typography>
-        <ProTip />
-        <Copyright />
-      </Box>
-    </Container>
-  );
-}
+export default App
