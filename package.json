@@ -14,7 +14,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "@material-ui/core": "latest",
-    "clsx": "latest",
+    "clsx": "^1.1.1",
     "react": "latest",
     "react-dom": "latest",
     "react-scripts": "latest"
