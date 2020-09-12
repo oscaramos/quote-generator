@@ -1,6 +1,6 @@
 # Quote Generator
 
-Generate an random quote and also share the quote on twitter
+Generate a random quote and share the quote on twitter
 
 # Motivation
 
@@ -12,7 +12,7 @@ This idea came out from [JavaScript Web Projects: 20 Projects to Build Your Port
 
 # Features
 
-* Get ramdom quote
+* Get random quote
 * Tweet quote
 * Progressive Web App
 
