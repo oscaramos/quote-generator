@@ -8,8 +8,8 @@ This idea came out from [JavaScript Web Projects: 20 Projects to Build Your Port
 
 # Demo
 
-<img src="./assets/Page-on-Generic-Laptop.jpg" alt='An quote from Confucius on Laptop' width='500'/>
-<img src="./assets/Page-on-Pixel2.jpg" alt='An quote from Confucius on Pixel 2' width='300'/>
+<img src="./assets/Page-on-Generic-Laptop.jpg" alt='An quote from Confucius on Laptop' width='600'/>
+<img src="./assets/Page-on-Pixel2.jpg" alt='An quote from Confucius on Pixel 2' width='150'/>
 
 # Features
 
