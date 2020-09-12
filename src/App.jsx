@@ -53,6 +53,22 @@ const useStyles = makeStyles(theme => ({
       color: '#38a1f3',
     },
   },
+  spinner: {
+    border: '16px solid #f3f3f3', /* Light grey */
+    borderTop: '16px solid #000',
+    borderRadius: '50%',
+    width: '120px',
+    height: '120px',
+    animation: '$spin 2s linear infinite',
+  },
+  '@keyframes spin': {
+    '0%': {
+      transform: 'rotate(0deg)',
+    },
+    '100%': {
+      transform: 'rotate(360deg)',
+    },
+  },
 }))
 
 
@@ -63,26 +79,31 @@ function App() {
 
   const [quote, setQuote] = useState('')
   const [author, setAuthor] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const isLongQuote = quote.length > 120
 
+  // eslint-disable-next-line
   const getQuote = () => {
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
     const apiUrl = 'https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en'
+
+    setLoading(true)
     fetch(proxyUrl + apiUrl)
       .then(resp => resp.json())
       .then(data => {
         setQuote(data.quoteText)
         setAuthor(data.quoteAuthor)
+        setLoading(false)
       })
-      .catch(error => {
+      .catch(() => {
         getQuote()
-        console.log("whoops, no quote" + error)
       })
   }
 
   useEffect(() => {
     getQuote()
+    // eslint-disable-next-line
   }, [])
 
   const tweetQuote = () => {
@@ -98,50 +119,59 @@ function App() {
       alignItems='center'
       style={{ minHeight: '100vh' }}
     >
-      {/*----- Quote -----*/}
-      <Grid item className={classes.quoteContainer}>
-        <Grid
-          container
-          direction='column'
-          justify='center'
-          alignItems='center'
-        >
-          {/*-- Quote --*/}
+      {
+        loading
+          ?
           <Grid item>
-            <FontAwesomeIcon icon={faQuoteLeft} style={{ fontSize: '4rem' }} />
-            <Typography
-              variant='h1'
-              style={{
-                fontSize: isLongQuote ? '2.0rem': matchesMD ? '2.5rem' : '2.75rem',
-                fontWeight: 700
-              }}
+            <div className={classes.spinner} />
+          </Grid>
+          :
+          <Grid item className={classes.quoteContainer}>
+            {/*----- Quote -----*/}
+            <Grid
+              container
+              direction='column'
+              justify='center'
+              alignItems='center'
             >
-              {quote}
-            </Typography>
-          </Grid>
+              {/*-- Quote --*/}
+              <Grid item>
+                <FontAwesomeIcon icon={faQuoteLeft} style={{ fontSize: '4rem' }} />
+                <Typography
+                  variant='h1'
+                  style={{
+                    fontSize: isLongQuote ? '2.0rem' : matchesMD ? '2.5rem' : '2.75rem',
+                    fontWeight: 700,
+                  }}
+                >
+                  {quote}
+                </Typography>
+              </Grid>
 
-          {/*-- Author --*/}
-          <Grid item style={{ marginTop: 15 }}>
-            <Typography variant='h2' style={{ fontSize: '2rem', fontWeight: 400, fontStyle: 'italic' }}>
-              {author}
-            </Typography>
-          </Grid>
+              {/*-- Author --*/}
+              <Grid item style={{ marginTop: 15 }}>
+                <Typography variant='h2' style={{ fontSize: '2rem', fontWeight: 400, fontStyle: 'italic' }}>
+                  {author}
+                </Typography>
+              </Grid>
 
-          {/*-- Buttons --*/}
-          <Grid item container direction='row' justify='space-between'>
-            <Grid item>
-              <IconButton className={clsx(classes.button, classes.twitterButton)} onClick={tweetQuote} disableRipple>
-                <FontAwesomeIcon icon={faTwitter} aria-label='Tweet this' />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <Button className={classes.button} onClick={getQuote} disableRipple>
-                New Quote
-              </Button>
+              {/*-- Buttons --*/}
+              <Grid item container direction='row' justify='space-between'>
+                <Grid item>
+                  <IconButton className={clsx(classes.button, classes.twitterButton)} onClick={tweetQuote}
+                              disableRipple>
+                    <FontAwesomeIcon icon={faTwitter} aria-label='Tweet this' />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <Button className={classes.button} onClick={getQuote} disableRipple>
+                    New Quote
+                  </Button>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+      }
     </Grid>
   )
 }
