@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -40,19 +40,19 @@ const useStyles = makeStyles(theme => ({
     transitionDuration: '0s',
     '&:hover': {
       backgroundColor: '#333',
-      filter: 'brightness(110%)'
+      filter: 'brightness(110%)',
     },
     '&:active': {
       transform: 'translate(0, 0.3rem)',
       boxShadow: 'none',
-    }
+    },
   },
   twitterButton: {
     fontSize: '1.5rem',
     '&:hover': {
       color: '#38a1f3',
-    }
-  }
+    },
+  },
 }))
 
 
@@ -60,6 +60,35 @@ function App() {
   const classes = useStyles()
   const theme = useTheme()
   const matchesMD = useMediaQuery(theme.breakpoints.down('md'))
+
+  const [quote, setQuote] = useState('')
+  const [author, setAuthor] = useState('')
+
+  const isLongQuote = quote.length > 120
+
+  const getQuote = () => {
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+    const apiUrl = 'https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en'
+    fetch(proxyUrl + apiUrl)
+      .then(resp => resp.json())
+      .then(data => {
+        setQuote(data.quoteText)
+        setAuthor(data.quoteAuthor)
+      })
+      .catch(error => {
+        getQuote()
+        console.log("whoops, no quote" + error)
+      })
+  }
+
+  useEffect(() => {
+    getQuote()
+  }, [])
+
+  const tweetQuote = () => {
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${quote} - ${author}`
+    window.open(twitterUrl, '_blank')
+  }
 
   return (
     <Grid
@@ -80,27 +109,33 @@ function App() {
           {/*-- Quote --*/}
           <Grid item>
             <FontAwesomeIcon icon={faQuoteLeft} style={{ fontSize: '4rem' }} />
-            <Typography variant='h1' style={{ fontSize: matchesMD ? '2.5rem' : '2.75rem', fontWeight: 700 }}>
-              What you are is what you have been. What you'll be is what you do now
+            <Typography
+              variant='h1'
+              style={{
+                fontSize: isLongQuote ? '2.0rem': matchesMD ? '2.5rem' : '2.75rem',
+                fontWeight: 700
+              }}
+            >
+              {quote}
             </Typography>
           </Grid>
 
           {/*-- Author --*/}
           <Grid item style={{ marginTop: 15 }}>
             <Typography variant='h2' style={{ fontSize: '2rem', fontWeight: 400, fontStyle: 'italic' }}>
-              Buddha
+              {author}
             </Typography>
           </Grid>
 
           {/*-- Buttons --*/}
           <Grid item container direction='row' justify='space-between'>
             <Grid item>
-              <IconButton className={clsx(classes.button, classes.twitterButton)} disableRipple>
+              <IconButton className={clsx(classes.button, classes.twitterButton)} onClick={tweetQuote} disableRipple>
                 <FontAwesomeIcon icon={faTwitter} aria-label='Tweet this' />
               </IconButton>
             </Grid>
             <Grid item>
-              <Button className={classes.button} disableRipple>
+              <Button className={classes.button} onClick={getQuote} disableRipple>
                 New Quote
               </Button>
             </Grid>
