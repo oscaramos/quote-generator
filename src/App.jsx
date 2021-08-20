@@ -86,7 +86,7 @@ function App() {
 
   // eslint-disable-next-line
   const getQuote = () => {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+    const proxyUrl = 'https://cors-anywhere-oscar.herokuapp.com/'
     const apiUrl = 'https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en'
 
     setLoading(true)
