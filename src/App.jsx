@@ -118,7 +118,7 @@ function App() {
     <Grid
       container
       direction='column'
-      justify='center'
+      justifyContent='center'
       alignItems='center'
       style={{ minHeight: '100vh' }}
     >
@@ -134,7 +134,7 @@ function App() {
             <Grid
               container
               direction='column'
-              justify='center'
+              justifyContent='center'
               alignItems='center'
             >
               {/*-- Quote --*/}
@@ -159,7 +159,7 @@ function App() {
               </Grid>
 
               {/*-- Buttons --*/}
-              <Grid item container direction='row' justify='space-between'>
+              <Grid item container direction='row' justifyContent='space-between'>
                 <Grid item>
                   <IconButton className={clsx(classes.button, classes.twitterButton)} onClick={tweetQuote}
                               disableRipple>
