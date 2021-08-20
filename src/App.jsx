@@ -98,7 +98,9 @@ function App() {
         setLoading(false)
       })
       .catch(() => {
-        getQuote()
+        setTimeout(() => {
+          getQuote()
+        }, 1000)
       })
   }
 
