@@ -2,10 +2,6 @@
 
 Generate a random quote and share the quote on twitter
 
-# Motivation
-
-This idea came out from [JavaScript Web Projects: 20 Projects to Build Your Portfolio](https://academy.zerotomastery.io/p/javascript-projects)
-
 # Demo
 
 <img src="./assets/Page-on-Generic-Laptop.jpg" alt='An quote from Confucius on Laptop' width='600'/> <img src="./assets/Page-on-Pixel2.jpg" alt='An quote from Confucius on Pixel 2' width='200'/>
